@@ -13,6 +13,7 @@ enum ST7789Model {
   M5STACK = 0,
   TFT_24,
   TFT_24R,
+  TFT_13R,
 };
 
 enum ST7789ColorMode {
@@ -109,6 +110,14 @@ class ST7789TFT24R : public ST7789Display {
  public:
   void initialize() override;
 };
+
+//-----------   ST7789_13_TFT rotated display --------------
+class ST7789TFT13R : public ST7789Display {
+ public:
+  void initialize() override;
+};
+
+
 
 }  // namespace st7789
 }  // namespace esphome
