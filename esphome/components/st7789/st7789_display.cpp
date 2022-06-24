@@ -9,7 +9,7 @@ namespace st7789 {
 
 static const char *const TAG = "st7789";
 
-void st7789Display::setup_pins_() {
+void ST7789Display::setup_pins_() {
   this->init_internal_(this->get_buffer_length_());
   this->dc_pin_->setup();  // OUTPUT
   this->dc_pin_->digital_write(false);
@@ -26,7 +26,7 @@ void st7789Display::setup_pins_() {
   this->reset_();
 }
 
-void st7789Display::dump_config() {
+void ST7789Display::dump_config() {
   LOG_DISPLAY("", "st7789", this);
   ESP_LOGCONFIG(TAG, "  Width: %d, Height: %d,  Rotation: %d", this->width_, this->height_, this->rotation_);
   LOG_PIN("  Reset Pin: ", this->reset_pin_);
@@ -36,14 +36,14 @@ void st7789Display::dump_config() {
   LOG_UPDATE_INTERVAL(this);
 }
 
-float st7789Display::get_setup_priority() const { return setup_priority::PROCESSOR; }
-void st7789Display::command(uint8_t value) {
+float ST7789Display::get_setup_priority() const { return setup_priority::PROCESSOR; }
+void ST7789Display::command(uint8_t value) {
   this->start_command_();
   this->write_byte(value);
   this->end_command_();
 }
 
-void st7789Display::reset_() {
+void ST7789Display::reset_() {
   if (this->reset_pin_ != nullptr) {
     this->reset_pin_->digital_write(false);
     delay(10);
@@ -52,20 +52,20 @@ void st7789Display::reset_() {
   }
 }
 
-void st7789Display::data(uint8_t value) {
+void ST7789Display::data(uint8_t value) {
   this->start_data_();
   this->write_byte(value);
   this->end_data_();
 }
 
-void st7789Display::send_command(uint8_t command_byte, const uint8_t *data_bytes, uint8_t num_data_bytes) {
+void ST7789Display::send_command(uint8_t command_byte, const uint8_t *data_bytes, uint8_t num_data_bytes) {
   this->command(command_byte);  // Send the command byte
   this->start_data_();
   this->write_array(data_bytes, num_data_bytes);
   this->end_data_();
 }
 
-uint8_t st7789Display::read_command(uint8_t command_byte, uint8_t index) {
+uint8_t ST7789Display::read_command(uint8_t command_byte, uint8_t index) {
   uint8_t data = 0x10 + index;
   this->send_command(0xD9, &data, 1);  // Set Index Register
   uint8_t result;
@@ -79,12 +79,12 @@ uint8_t st7789Display::read_command(uint8_t command_byte, uint8_t index) {
   return result;
 }
 
-void st7789Display::update() {
+void ST7789Display::update() {
   this->do_update_();
   this->display_();
 }
 
-void st7789Display::display_() {
+void ST7789Display::display_() {
   // we will only update the changed window to the display
   uint16_t w = this->x_high_ - this->x_low_ + 1;
   uint16_t h = this->y_high_ - this->y_low_ + 1;
@@ -112,7 +112,7 @@ void st7789Display::display_() {
   this->y_high_ = 0;
 }
 
-void st7789Display::fill(Color color) {
+void ST7789Display::fill(Color color) {
   uint8_t color332 = display::ColorUtil::color_to_332(color, display::ColorOrder::COLOR_ORDER_RGB);
   memset(this->buffer_, color332, this->get_buffer_length_());
   this->x_low_ = 0;
@@ -121,7 +121,7 @@ void st7789Display::fill(Color color) {
   this->y_high_ = this->get_height_internal() - 1;
 }
 
-void st7789Display::fill_internal_(Color color) {
+void ST7789Display::fill_internal_(Color color) {
   if (color.raw_32 == Color::BLACK.raw_32) {
     memset(transfer_buffer_, 0, sizeof(transfer_buffer_));
   } else {
@@ -150,7 +150,7 @@ void st7789Display::fill_internal_(Color color) {
   memset(buffer_, 0, (this->get_width_internal()) * (this->get_height_internal()));
 }
 
-void HOT st7789Display::draw_absolute_pixel_internal(int x, int y, Color color) {
+void HOT ST7789Display::draw_absolute_pixel_internal(int x, int y, Color color) {
   if (x >= this->get_width_internal() || x < 0 || y >= this->get_height_internal() || y < 0)
     return;
 
@@ -172,21 +172,21 @@ void HOT st7789Display::draw_absolute_pixel_internal(int x, int y, Color color) 
 
 // should return the total size: return this->get_width_internal() * this->get_height_internal() * 2 // 16bit color
 // values per bit is huge
-uint32_t st7789Display::get_buffer_length_() { return this->get_width_internal() * this->get_height_internal(); }
+uint32_t ST7789Display::get_buffer_length_() { return this->get_width_internal() * this->get_height_internal(); }
 
-void st7789Display::start_command_() {
+void ST7789Display::start_command_() {
   this->dc_pin_->digital_write(false);
   this->enable();
 }
 
-void st7789Display::end_command_() { this->disable(); }
-void st7789Display::start_data_() {
+void ST7789Display::end_command_() { this->disable(); }
+void ST7789Display::start_data_() {
   this->dc_pin_->digital_write(true);
   this->enable();
 }
-void st7789Display::end_data_() { this->disable(); }
+void ST7789Display::end_data_() { this->disable(); }
 
-void st7789Display::init_lcd_(const uint8_t *init_cmd) {
+void ST7789Display::init_lcd_(const uint8_t *init_cmd) {
   uint8_t cmd, x, num_args;
   const uint8_t *addr = init_cmd;
   while ((cmd = progmem_read_byte(addr++)) > 0) {
@@ -199,31 +199,31 @@ void st7789Display::init_lcd_(const uint8_t *init_cmd) {
   }
 }
 
-void st7789Display::set_addr_window_(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h) {
+void ST7789Display::set_addr_window_(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h) {
   uint16_t x2 = (x1 + w - 1), y2 = (y1 + h - 1);
-  this->command(st7789_CASET);  // Column address set
+  this->command(ST7789_CASET);  // Column address set
   this->start_data_();
   this->write_byte(x1 >> 8);
   this->write_byte(x1);
   this->write_byte(x2 >> 8);
   this->write_byte(x2);
   this->end_data_();
-  this->command(st7789_PASET);  // Row address set
+  this->command(ST7789_PASET);  // Row address set
   this->start_data_();
   this->write_byte(y1 >> 8);
   this->write_byte(y1);
   this->write_byte(y2 >> 8);
   this->write_byte(y2);
   this->end_data_();
-  this->command(st7789_RAMWR);  // Write to RAM
+  this->command(ST7789_RAMWR);  // Write to RAM
 }
 
-void st7789Display::invert_display_(bool invert) { this->command(invert ? st7789_INVON : st7789_INVOFF); }
+void ST7789Display::invert_display_(bool invert) { this->command(invert ? ST7789_INVON : ST7789_INVOFF); }
 
-int st7789Display::get_width_internal() { return this->width_; }
-int st7789Display::get_height_internal() { return this->height_; }
+int ST7789Display::get_width_internal() { return this->width_; }
+int ST7789Display::get_height_internal() { return this->height_; }
 
-uint32_t st7789Display::buffer_to_transfer_(uint32_t pos, uint32_t sz) {
+uint32_t ST7789Display::buffer_to_transfer_(uint32_t pos, uint32_t sz) {
   uint8_t *src = buffer_ + pos;
   uint8_t *dst = transfer_buffer_;
 
@@ -247,7 +247,7 @@ uint32_t st7789Display::buffer_to_transfer_(uint32_t pos, uint32_t sz) {
 }
 
 //   M5Stack display
-void st7789M5Stack::initialize() {
+void ST7789M5Stack::initialize() {
   this->init_lcd_(INITCMD_M5STACK);
   this->width_ = 320;
   this->height_ = 240;
@@ -256,7 +256,7 @@ void st7789M5Stack::initialize() {
 }
 
 //   24_TFT display
-void st7789TFT24::initialize() {
+void ST7789TFT24::initialize() {
   this->init_lcd_(INITCMD_TFT);
   this->width_ = 240;
   this->height_ = 320;
@@ -264,7 +264,7 @@ void st7789TFT24::initialize() {
 }
 
 //   24_TFT rotated display
-void st7789TFT24R::initialize() {
+void ST7789TFT24R::initialize() {
   this->init_lcd_(INITCMD_TFT);
   this->width_ = 320;
   this->height_ = 240;
@@ -272,7 +272,7 @@ void st7789TFT24R::initialize() {
 }
 
 //   13_TFT rotated display
-void st7789TFT13R::initialize() {
+void ST7789TFT13R::initialize() {
   this->init_lcd_(INITCMD_TFT);
   this->width_ = 240;
   this->height_ = 240;
