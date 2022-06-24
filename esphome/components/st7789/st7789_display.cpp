@@ -276,7 +276,7 @@ void ST7789TFT13R::initialize() {
   this->init_lcd_(INITCMD_TFT);
   this->width_ = 240;
   this->height_ = 240;
-  this->fill_internal_(Color::BLACK);
+  this->fill_internal_(Color::WHITE);
 }
 
 
