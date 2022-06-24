@@ -66,7 +66,7 @@ async def to_code(config):
         lcd_type = ST7789TFT24
     if config[CONF_MODEL] == "TFT_2.4R":
         lcd_type = ST7789TFT24R
-    if config[CONF_MODEL] == "TFT_1.3":
+    if config[CONF_MODEL] == "TFT_1.3R":
         lcd_type = ST7789TFT13R
     rhs = lcd_type.new()
     var = cg.Pvariable(config[CONF_ID], rhs)
