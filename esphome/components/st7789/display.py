@@ -25,6 +25,7 @@ st7789 = st7789_ns.class_(
 ST7789M5Stack = st7789_ns.class_("ST7789M5Stack", st7789)
 ST7789TFT24 = st7789_ns.class_("ST7789TFT24", st7789)
 ST7789TFT24R = st7789_ns.class_("ST7789TFT24R", st7789)
+ST7789TFT13R = st7789_ns.class_("ST7789TFT13R", st7789)
 
 ST7789Model = st7789_ns.enum("ST7789Model")
 ST7789ColorMode = st7789_ns.enum("ST7789ColorMode")
@@ -33,6 +34,7 @@ MODELS = {
     "M5STACK": ST7789Model.M5STACK,
     "TFT_2.4": ST7789Model.TFT_24,
     "TFT_2.4R": ST7789Model.TFT_24R,
+    "TFT_1.3R": ST7789Model.TFT_13R,
 }
 
 ST7789_MODEL = cv.enum(MODELS, upper=True, space="_")
@@ -64,6 +66,8 @@ async def to_code(config):
         lcd_type = ST7789TFT24
     if config[CONF_MODEL] == "TFT_2.4R":
         lcd_type = ST7789TFT24R
+    if config[CONF_MODEL] == "TFT_1.3":
+        lcd_type = ST7789TFT13R
     rhs = lcd_type.new()
     var = cg.Pvariable(config[CONF_ID], rhs)
 
