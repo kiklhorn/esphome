@@ -36,8 +36,8 @@ static const uint8_t PROGMEM INITCMD_M5STACK[] = {
 };
 
 static const uint8_t PROGMEM INITCMD_TFT[] = {
-  //0x11, 0, // Sleep out
-  //0x13, 0,  // Normal display mode on
+  0x11, 0x80, // Sleep out
+  0x13, 0x80,  // Normal display mode on
   //------------------------------display and color format setting--------------------------------//
   0x36, 1, 0x08,
   0xB6, 2, 0x0A, 0x82,
@@ -61,6 +61,7 @@ static const uint8_t PROGMEM INITCMD_TFT[] = {
   0x2B, 4, 0x00, 0x00, 0x01, 0x3F, //ROW ADDRESS SET, 319
   0x11, 0x80,                // Exit Sleep
   0x13, 0x80,                // Display on
+  0x29, 0x80,
   0x00                                   // End of list
 };
 
