@@ -62,6 +62,7 @@ static const uint8_t PROGMEM INITCMD_TFT[] = {
   0x11, 0x80,                // Exit Sleep
   0x13, 0x80,                // Display on
   0x29, 0x80,
+  0x01, 0x80,               // software reset
   0x00                                   // End of list
 };
 
