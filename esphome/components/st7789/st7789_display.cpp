@@ -12,7 +12,7 @@ static const char *const TAG = "st7789";
 void ST7789Display::setup_pins_() {
   this->init_internal_(this->get_buffer_length_());
   this->dc_pin_->setup();  // OUTPUT
-  this->dc_pin_->digital_write(true);
+  this->dc_pin_->digital_write(false);
   if (this->reset_pin_ != nullptr) {
     this->reset_pin_->setup();  // OUTPUT
     this->reset_pin_->digital_write(true);
