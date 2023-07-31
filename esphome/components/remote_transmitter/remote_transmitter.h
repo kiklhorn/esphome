@@ -3,6 +3,8 @@
 #include "esphome/core/component.h"
 #include "esphome/components/remote_base/remote_base.h"
 
+#include <vector>
+
 namespace esphome {
 namespace remote_transmitter {
 
@@ -46,7 +48,7 @@ class RemoteTransmitterComponent : public remote_base::RemoteTransmitterBase,
   esp_err_t error_code_{ESP_OK};
   bool inverted_{false};
 #endif
-  uint8_t carrier_duty_percent_{50};
+  uint8_t carrier_duty_percent_;
 };
 
 }  // namespace remote_transmitter
