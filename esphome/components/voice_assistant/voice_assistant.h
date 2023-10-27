@@ -115,6 +115,7 @@ class VoiceAssistant : public Component {
   void set_state_(State state);
   void set_state_(State state, State desired_state);
   void signal_stop_();
+  static const LogString *voice_assistant_state_to_string(State state);
 
   std::unique_ptr<socket::Socket> socket_ = nullptr;
   struct sockaddr_storage dest_addr_;
