@@ -327,8 +327,10 @@ void VoiceAssistant::loop() {
 }
 
 std::string VoiceAssistant::get_state_string() const {
-    return std::string(voice_assistant_state_to_string(this->state_));
+    const LogString* log_str = voice_assistant_state_to_string(this->state_);
+    return log_str->str;
 }
+
 
 static const LogString *voice_assistant_state_to_string(State state) {
   switch (state) {
