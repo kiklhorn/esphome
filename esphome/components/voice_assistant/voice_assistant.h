@@ -99,7 +99,7 @@ class VoiceAssistant : public Component {
   }
   void set_auto_gain(uint8_t auto_gain) { this->auto_gain_ = auto_gain; }
   void set_volume_multiplier(float volume_multiplier) { this->volume_multiplier_ = volume_multiplier; }
-  std::string get_state_string() const { return std::string(voice_assistant_state_to_string(this->state_)->str); }
+  std::string get_state_string() const;
     
   Trigger<> *get_listening_trigger() const { return this->listening_trigger_; }
   Trigger<> *get_start_trigger() const { return this->start_trigger_; }
