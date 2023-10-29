@@ -359,6 +359,11 @@ static const LogString *voice_assistant_state_to_string(State state) {
   }
 };
 
+std::string VoiceAssistant::get_state_string() const {
+    const LogString* log_str = voice_assistant_state_to_string(this->state_);
+    return log_str->str;
+}
+
 void VoiceAssistant::set_state_(State state) {
   State old_state = this->state_;
   this->state_ = state;
