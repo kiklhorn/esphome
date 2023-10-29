@@ -99,8 +99,7 @@ class VoiceAssistant : public Component {
   }
   void set_auto_gain(uint8_t auto_gain) { this->auto_gain_ = auto_gain; }
   void set_volume_multiplier(float volume_multiplier) { this->volume_multiplier_ = volume_multiplier; }
-  std::string get_state_string() const { return *voice_assistant_state_to_string(this->state_); }
-    
+
   Trigger<> *get_listening_trigger() const { return this->listening_trigger_; }
   Trigger<> *get_start_trigger() const { return this->start_trigger_; }
   Trigger<> *get_wake_word_detected_trigger() const { return this->wake_word_detected_trigger_; }
@@ -115,6 +114,7 @@ class VoiceAssistant : public Component {
   void set_state_(State state);
   void set_state_(State state, State desired_state);
   void signal_stop_();
+  static const LogString *voice_assistant_state_to_string(State state);
 
   std::unique_ptr<socket::Socket> socket_ = nullptr;
   struct sockaddr_storage dest_addr_;
