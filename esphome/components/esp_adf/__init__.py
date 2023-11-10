@@ -23,8 +23,7 @@ SUPPORTED_BOARDS = {
     "esp32s3boxlite": "CONFIG_ESP32_S3_BOX_LITE_BOARD",
     "esp32s3box3": "CONFIG_ESP32_S3_BOX_3_BOARD",
 }
-    # "esp32s3box2": "CONFIG_ESP32_S3_BOX_2_BOARD",  #just test
-# }
+
 
 
 def _default_board(config):
@@ -74,7 +73,7 @@ async def to_code(config):
         # repo="https://github.com/espressif/esp-adf",
         repo="https://github.com/kiklhorn/esp-adf",
         path="components",
-        ref="v2.5",
+        ref="v2.51",
         components=["*"],
         submodules=["components/esp-sr", "components/esp-adf-libs"],
     )
