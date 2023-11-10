@@ -22,7 +22,7 @@ SUPPORTED_BOARDS = {
     "esp32s3box": "CONFIG_ESP32_S3_BOX_BOARD",
     "esp32s3boxlite": "CONFIG_ESP32_S3_BOX_LITE_BOARD",
     "esp32s3box3": "CONFIG_ESP32_S3_BOX_3_BOARD",
-    "esp32s3box2": "CONFIG_ESP32_S3_BOX_2_BOARD",  //just test
+    "esp32s3box2": "CONFIG_ESP32_S3_BOX_2_BOARD",  #just test
 }
 
 
